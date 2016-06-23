@@ -3,10 +3,14 @@
 ## Example GetAlertTree:
 
 <pre>
-./check_sapcontrol.pl -H stechsv254 --authfile /etc/icinga2/auth/stechsv254.auth  --dump
+./check_sapcontrol.pl -H hostname --authfile /etc/icinga2/auth/hostname.auth  --dump
+</pre>
+
+
 ### Step 2: 
 <pre>
 ./check_sapcontrol.pl -H hostname --authfile /etc/icinga2/auth/hostname.auth  --match 'PrivMode Utilisation' --criteria description --critical 60 --warning 20
+
 OK | percent=0%
 
 function: GetAlertTree
