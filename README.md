@@ -60,7 +60,7 @@ $VAR8 = {
 
 ### Step 2:
 <pre>
-./check_sapcontrol.pl  --hostname stechsv756 --sid PBV --authfile /etc/icinga2/auth/stechsv756.auth -F GetProcessList --description Gateway
+./check_sapcontrol.pl  --hostname hostname --sid SID  --authfile /etc/icinga2/auth/hostname.auth -F GetProcessList --description Gateway
 OK - Running
 function: GetProcessList
 description :  Gateway
