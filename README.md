@@ -6,7 +6,7 @@
 ./check_sapcontrol.pl -H hostname --authfile /etc/icinga2/auth/hostname.auth  --dump
 </pre>
 
-The AlertTree is aved in a Perl-Hash.
+The AlertTree is saved in a Perl-Hash.
 
 **Output:**
 <pre>
