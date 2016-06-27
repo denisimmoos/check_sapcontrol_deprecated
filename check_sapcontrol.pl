@@ -11,7 +11,7 @@
 # REQUIREMENTS: ---
 #         BUGS: ---
 #        NOTES: ---
-#       AUTHOR: Denis Immoos (<denis.immoos@soprasteria.com>)
+#       AUTHOR: Denis Immoos (<denisimmoos@gmail.com>)
 #    AUTHORREF: Senior Linux System Administrator (LPIC3)
 # ORGANIZATION: Sopra Steria Switzerland
 #      VERSION: 1.0
@@ -190,7 +190,7 @@ This is released under the GPL3.
 
 =head1 AUTHOR
 
-Denis Immoos <denis.immoos@soprasteria.com>,
+Denis Immoos <denisimmoos@gmail.com>,
 Senior Linux System Administrator (LPIC3)
 
 
