@@ -167,6 +167,22 @@ sub parse {
 		# criteria
 		&error($caller,'$Options{criteria} must be defined (try: --dump)') if not ( $Options{'criteria'} or $Options{'dump'} ); 
 	}
+
+
+	#
+	# ABAPGetWPTable
+	#
+	if($Options{'function'} eq 'ABAPGetWPTable' ) {
+	
+		&error($caller,'$Options{status} must be defined (try: --dump)') if not ($Options{'status'} or $Options{'dump'}); 
+		&verbose($caller,'$Options{status} = ' . $Options{'status'}) if (($Options{'v'} or $Options{'verbose'}) and $Options{'status'} ); 
+
+
+		&error($caller,'$Options{critical} must be defined and a numeric value or NULL') if not ( $Options{'critical'} or $Options{'dump'}); 
+		&verbose($caller,'$Options{critical} = ' . $Options{'critical'}) if (($Options{'v'} or $Options{'verbose'}) and $Options{'critical'} ); 
+	
+	}
+
     
 	return %Options;
 }

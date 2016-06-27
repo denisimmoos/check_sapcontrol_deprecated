@@ -36,7 +36,7 @@ my %Options = ();
 #$Options{'sapcontrolcmd'} = '/usr/lib64/nagios/plugins/check_sapcontrol/bin/sapcontrol';
 $Options{'sapcontrolcmd'} = '/home/monitor/check_sapcontrol/bin/sapcontrol';
 
-my @functions =( 'GetAlertTree','GetProcessList' ); 
+my @functions =( 'GetAlertTree','GetProcessList','ABAPGetWPTable' ); 
 
 $Options{'functions'} = \@functions; 
 $Options{'function'} = 'GetAlertTree';
@@ -103,11 +103,14 @@ GetOptions(\%Options,
 	        'match:s',
 	        'criteria:s',
 	        'dump',
+	        'reverse', # reverses the logic for ABAPGetWPTable 
 	        'dumpall',
 	        'dumpmatch',
 	        'noperfdata',
-	        'pid:i',      #
+	        'pid:i',      
 	        'name:s',      #
+	        'typ:s',      #
+	        'status:s',      #
 	        'description:s',      #
 	        'sapcontrolcmd:s',      #
             'username:s',      #
@@ -134,7 +137,7 @@ load $SAPControl;
 $SAPControl = $SAPControl->new();
 my %SAPControl = $SAPControl->sapcontrol(\%Options);
 
-if ($Options{'dump'} ) {
+if ( $Options{'dump'} ) {
 	print '###########################' . "\n";
 	print '# $SAPControl->sapcontrol()' . "\n";
 	print '###########################' . "\n";

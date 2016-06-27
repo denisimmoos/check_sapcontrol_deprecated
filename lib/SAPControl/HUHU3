@@ -1,0 +1,244 @@
+
+27.06.2016 11:00:56
+ABAPGetWPTable
+OK
+0 No: 0
+0 Typ: DIA
+0 Pid: 3800
+0 Status: Wait
+0 Reason: 
+0 Start: yes
+0 Err: 
+0 Sem: 
+0 Cpu: 0:12:38
+0 Time: 
+0 Program: 
+0 Client: 
+0 User: 
+0 Action: 
+0 Table: 
+1 No: 1
+1 Typ: DIA
+1 Pid: 2176
+1 Status: Wait
+1 Reason: 
+1 Start: yes
+1 Err: 
+1 Sem: 
+1 Cpu: 0:09:27
+1 Time: 
+1 Program: 
+1 Client: 
+1 User: 
+1 Action: 
+1 Table: 
+2 No: 2
+2 Typ: DIA
+2 Pid: 3632
+2 Status: Wait
+2 Reason: 
+2 Start: yes
+2 Err: 1
+2 Sem: 
+2 Cpu: 0:00:04
+2 Time: 
+2 Program: 
+2 Client: 
+2 User: 
+2 Action: 
+2 Table: 
+3 No: 3
+3 Typ: DIA
+3 Pid: 4448
+3 Status: Wait
+3 Reason: 
+3 Start: yes
+3 Err: 2
+3 Sem: 
+3 Cpu: 0:00:04
+3 Time: 
+3 Program: 
+3 Client: 
+3 User: 
+3 Action: 
+3 Table: 
+4 No: 4
+4 Typ: DIA
+4 Pid: 460
+4 Status: Wait
+4 Reason: 
+4 Start: yes
+4 Err: 1
+4 Sem: 
+4 Cpu: 0:00:04
+4 Time: 
+4 Program: 
+4 Client: 
+4 User: 
+4 Action: 
+4 Table: 
+5 No: 5
+5 Typ: DIA
+5 Pid: 1960
+5 Status: Wait
+5 Reason: 
+5 Start: yes
+5 Err: 
+5 Sem: 
+5 Cpu: 0:04:26
+5 Time: 
+5 Program: 
+5 Client: 
+5 User: 
+5 Action: 
+5 Table: 
+6 No: 6
+6 Typ: DIA
+6 Pid: 4904
+6 Status: Wait
+6 Reason: 
+6 Start: yes
+6 Err: 
+6 Sem: 
+6 Cpu: 0:09:17
+6 Time: 
+6 Program: 
+6 Client: 
+6 User: 
+6 Action: 
+6 Table: 
+7 No: 7
+7 Typ: DIA
+7 Pid: 4280
+7 Status: Wait
+7 Reason: 
+7 Start: yes
+7 Err: 
+7 Sem: 
+7 Cpu: 0:09:55
+7 Time: 
+7 Program: 
+7 Client: 
+7 User: 
+7 Action: 
+7 Table: 
+8 No: 8
+8 Typ: DIA
+8 Pid: 3232
+8 Status: Wait
+8 Reason: 
+8 Start: yes
+8 Err: 
+8 Sem: 
+8 Cpu: 0:04:39
+8 Time: 
+8 Program: 
+8 Client: 
+8 User: 
+8 Action: 
+8 Table: 
+9 No: 9
+9 Typ: DIA
+9 Pid: 2020
+9 Status: Wait
+9 Reason: 
+9 Start: yes
+9 Err: 
+9 Sem: 
+9 Cpu: 0:02:47
+9 Time: 
+9 Program: 
+9 Client: 
+9 User: 
+9 Action: 
+9 Table: 
+10 No: 10
+10 Typ: UPD
+10 Pid: 4252
+10 Status: Wait
+10 Reason: 
+10 Start: yes
+10 Err: 
+10 Sem: 
+10 Cpu: 0:00:34
+10 Time: 
+10 Program: 
+10 Client: 
+10 User: 
+10 Action: 
+10 Table: 
+11 No: 11
+11 Typ: BTC
+11 Pid: 3832
+11 Status: Wait
+11 Reason: 
+11 Start: yes
+11 Err: 
+11 Sem: 
+11 Cpu: 2:09:24
+11 Time: 
+11 Program: 
+11 Client: 
+11 User: 
+11 Action: 
+11 Table: 
+12 No: 12
+12 Typ: BTC
+12 Pid: 3100
+12 Status: Wait
+12 Reason: 
+12 Start: yes
+12 Err: 
+12 Sem: 
+12 Cpu: 1:55:59
+12 Time: 
+12 Program: 
+12 Client: 
+12 User: 
+12 Action: 
+12 Table: 
+13 No: 13
+13 Typ: BTC
+13 Pid: 3372
+13 Status: Wait
+13 Reason: 
+13 Start: yes
+13 Err: 
+13 Sem: 
+13 Cpu: 2:01:33
+13 Time: 
+13 Program: 
+13 Client: 
+13 User: 
+13 Action: 
+13 Table: 
+14 No: 14
+14 Typ: SPO
+14 Pid: 3964
+14 Status: Wait
+14 Reason: 
+14 Start: yes
+14 Err: 
+14 Sem: 
+14 Cpu: 0:02:33
+14 Time: 
+14 Program: 
+14 Client: 
+14 User: 
+14 Action: 
+14 Table: 
+15 No: 15
+15 Typ: UP2
+15 Pid: 4300
+15 Status: Wait
+15 Reason: 
+15 Start: yes
+15 Err: 
+15 Sem: 
+15 Cpu: 0:00:29
+15 Time: 
+15 Program: 
+15 Client: 
+15 User: 
+15 Action: 
+15 Table: 

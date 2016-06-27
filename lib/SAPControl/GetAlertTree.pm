@@ -60,6 +60,8 @@ sub sapcontrol {
     my @subsapcontrol;
     my %sapcontrol;
 
+	#print "$Options{'sapcontrolcmd'} -host $Options{'hostname'} -user $Options{'username'} $Options{'password'} -nr $Options{'nr'} -function $Options{'function'} -format $Options{'format'}";
+	#die;
 	open(SAPCONTROL,"$Options{'sapcontrolcmd'} -host $Options{'hostname'} -user $Options{'username'} $Options{'password'} -nr $Options{'nr'} -function $Options{'function'} -format $Options{'format'} |") or &error($caller,'open(SAPCONTROL)');
 
 	while ( my $line = <SAPCONTROL> ) {
