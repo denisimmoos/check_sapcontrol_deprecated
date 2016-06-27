@@ -248,9 +248,9 @@ sub out_nagios {
 
 	# ;) 
 	if ($Options{'typ'}) {
-	  print "$msg - $Options{'typ'} ($count) | count=$count" . "\n";
+	  print "$msg - $Options{'typ'}($Options{'status'})[$count] | count=$count" . "\n";
 	} else {
-	  print "$msg - ($count) | count=$count" . "\n";
+	  print "$msg - ($Options{'status'})[$count] | count=$count" . "\n";
 	}
 
 	# return 0,1,2,3
