@@ -70,6 +70,10 @@ sub parse {
 	if ($Options{'unknown'}) { $Options{'U'} = $Options{'unknown'} };
 	if ($Options{'U'}) { $Options{'unknown'} = $Options{'U'} };
 
+	if ($Options{'match'}) { $Options{'M'} = $Options{'match'} };
+	if ($Options{'M'}) { $Options{'match'} = $Options{'M'} };
+
+
     # 
 	# hostname
 	#

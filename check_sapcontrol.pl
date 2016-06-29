@@ -101,7 +101,6 @@ GetOptions(\%Options,
 	'U:s',  'unknown:s',
 	'M:s',  'match:s',
 	'F:s',  'function:s',
-	        'match:s',
 	        'criteria:s',
 	        'dump',
 	        'reverse', # reverses the logic for ABAPGetWPTable 
