@@ -170,7 +170,8 @@ sub out_nagios {
 	my %NagiosStatus = (
 		GREEN    => 'OK',
 		RED      => 'CRITICAL',
-		GRAY     => 'UNKNOWN',
+		#GRAY     => 'UNKNOWN',
+		GRAY     => 'CRITICAL',
 		YELLOW   => 'WARNING',
         
 		OK       => 0,
