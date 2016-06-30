@@ -233,7 +233,7 @@ sub out_nagios {
 		# ----------------------------------------------------------
 		# RULE: minutes  or percentage
 		# ----------------------------------------------------------
-		if( $criteria =~ /%/ or $criteria =~ /\/min/) {
+		if( $criteria =~ /%/ or $criteria =~ /\/min/ or $criteria =~ /Pg\/S/) {
 
 
 			# spilt value
@@ -246,7 +246,6 @@ sub out_nagios {
 			$perfvar =~ s/^\s+|\s+$//g;
 			$perfvar =~ s/\///g;
 			$perfvar =~ s/%/percent/g;
-			
 
 			#print $criteria . "\n";
 			#print $perfvar . "\n";
