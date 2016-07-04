@@ -277,16 +277,19 @@ sub out_nagios {
 
 			if ( $criteria >=  $Options{'warning'} and $Options{'warning'}){
 				$status = $NagiosStatus{'WARNING'};
-			    $SAPControl{$hash_nr}{'HighAlertValue'} .=  ' overwritten by $Options{warning}'; 
+				#$SAPControl{$hash_nr}{'HighAlertValue'} .=  ' overwritten by $Options{warning}'; 
+			    $SAPControl{$hash_nr}{'ActualValue'} .=  ' overwritten by $Options{warning}'; 
 			} 
 
 			if ( $criteria >=  $Options{'critical'} ){
 				$status = $NagiosStatus{'CRITICAL'};
                 
 				if ($Options{'warning'}) {
-			        $SAPControl{$hash_nr}{'HighAlertValue'} .=  ' and $Options{critical}';
+					#$SAPControl{$hash_nr}{'HighAlertValue'} .=  ' and $Options{critical}';
+			        $SAPControl{$hash_nr}{'ActualValue'} .=  ' and $Options{critical}';
 			    } else {
-			        $SAPControl{$hash_nr}{'HighAlertValue'} .=  ' overwritten by $Options{critical}'; 
+					#$SAPControl{$hash_nr}{'HighAlertValue'} .=  ' overwritten by $Options{critical}'; 
+			        $SAPControl{$hash_nr}{'ActualValue'} .=  ' overwritten by $Options{critical}'; 
 				}
 			} 
 
