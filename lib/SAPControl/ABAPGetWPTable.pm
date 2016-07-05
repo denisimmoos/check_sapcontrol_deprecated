@@ -183,6 +183,7 @@ sub out_nagios {
 	my $count_all = 0;
 	my $count_total = 0;
 	my $count_percent = 0;
+	my $count_msg = 0;
 	my $status; 
 	my $msg; 
     
@@ -292,12 +293,15 @@ sub out_nagios {
 	  
 	  # formating 
 	  if ($Options{'percent'}) {
+		  $count_msg=$count_percent . '%';
 	      $count_percent=$count_percent . '%' . ';' . $Options{'warning'} .  ';' . $Options{'critical'} . ';0;100';
 	  } else {
+		  $count_msg=$count_percent . '%';
 		  $count_percent=$count_percent . '%';
 	  }
 	  
-	  print "$msg - $Options{'typ'}($Options{'status'})[$count/$count_all][$count_percent%][W:$Options{'warning'}][C:$Options{'critical'}] | count=$count percent=$count_percent" . "\n";
+	  print "$msg - $Options{'typ'}($Options{'status'})[$count/$count_all][$count_msg][W:$Options{'warning'}][C:$Options{'critical'}] | count=$count percent=$count_percent" . "\n";
+
 	} else {
 	  print "$msg - ($Options{'status'})[$count/$count_total][W:$Options{'warning'}][C:$Options{'critical'}] | count=$count" . "\n";
 	}
