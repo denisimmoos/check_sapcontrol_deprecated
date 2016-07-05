@@ -1,6 +1,52 @@
 # check_sapcontrol
 ## Example ABAPGetWPTable:
 
+### --dump
+<pre>
+./check_sapcontrol.pl -H hostname --authfile /etc/icinga2/auth/sap_monitor.auth  -F ABAPGetWPTable  --dump
+###########################
+# $SAPControl->sapcontrol()
+###########################
+$VAR1 = '11';
+$VAR2 = {
+          'cpu' => '4',
+          'time' => '',
+          'status' => 'Wait',
+          'table' => '',
+          'err' => '',
+          'reason' => '',
+          'no' => '11',
+          'program' => '',
+          'client' => '',
+          'pid' => '3832',
+          'sem' => '',
+          'action' => '',
+          'user' => '',
+          'typ' => 'BTC',
+          'start' => 'yes'
+        };
+$VAR3 = '7';
+$VAR4 = {
+          'cpu' => '0',
+          'time' => '',
+          'status' => 'Wait',
+          'table' => '',
+          'err' => '',
+          'reason' => '',
+          'no' => '7',
+          'program' => '',
+          'client' => '',
+          'pid' => '4280',
+          'sem' => '',
+          'action' => '',
+          'user' => '',
+          'typ' => 'DIA',
+          'start' => 'yes'
+        };
+$VAR5 = '2';
+(...)
+</pre>
+
 ### --percent
 <pre>
 ./check_sapcontrol.pl -H hostname --authfile /etc/icinga2/auth/sap_monitor.auth  -F ABAPGetWPTable --status Ended  --critical 50 --warning 40 --percent --typ DIA
