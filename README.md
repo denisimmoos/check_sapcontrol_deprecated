@@ -6,7 +6,7 @@
 ./check_sapcontrol.pl -H hostname --authfile /etc/icinga2/auth/sap_monitor.auth  -F ABAPGetWPTable --status Ended  --critical 50 --warning 40 --percent --typ DIA
 </pre>
 
-### --reverse - CRITICAL if no --status Wait found
+### --reverse - CRITICAL if no '--status Wait' found
 <pre>
 ./check_sapcontrol.pl -H hostname  --authfile /etc/icinga2/auth/sap_monitor.auth  -F ABAPGetWPTable  --status Wait   --critical NULL --reverse --typ DIA
 </pre>
