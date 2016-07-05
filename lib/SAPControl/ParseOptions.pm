@@ -184,10 +184,23 @@ sub parse {
 
 		&error($caller,'$Options{critical} must be defined and a numeric value or NULL') if not ( $Options{'critical'} or $Options{'dump'}); 
 		&verbose($caller,'$Options{critical} = ' . $Options{'critical'}) if (($Options{'v'} or $Options{'verbose'}) and $Options{'critical'} ); 
+		&error($caller,'$Options{typ} must be defined together with $Options{percent}') if (defined($Options{'percent'}) and not defined($Options{'typ'}));
+		&error($caller,'$Options{percent} can not be use together with $Options{reverse}') if (defined($Options{'percent'}) and defined($Options{'reverse'}));
 	
 	}
 
-    
+	
+	#
+	# percent ;)
+	#
+
+	if (defined($Options{'percent'})) {
+		  &error($caller,'$Options{warning} must be lower than 100%') if ( $Options{'warning'} >  100 );
+		  &error($caller,'$Options{critical} must be equal or lower than 100%') if ( $Options{'critical'} >= 100 );
+		  &error($caller,'$Options{critical} must be greater than $Options{warning}') if ( $Options{'critical'} <= $Options{'warning'} );
+	}
+	
+
 	return %Options;
 }
 

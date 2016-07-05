@@ -126,10 +126,14 @@ sub match {
 	my $hash_key;
 	my $hash_value;
 	my @hash_nr =();
+	my @hash_nr_all =();
+	my @hash_nr_total =();
 	my $hash_count =();
 	my %SAPControlMatch;
 
 	foreach $hash_nr (keys(%SAPControl)) {
+
+		 push(@hash_nr_total,$hash_nr);
 
 		# 
 		# suchen nach match 
@@ -138,19 +142,27 @@ sub match {
 
 		  if (defined($Options{'status'}) and $Options{'typ'} eq $SAPControl{$hash_nr}{'typ'}) {
 			push(@hash_nr,$hash_nr) if ( $Options{'status'} eq $SAPControl{$hash_nr}{'status'} );
+		    push(@hash_nr_all,$hash_nr);
 		  }
 
 	    } else {
 			# ohne type alles zählen
 			push(@hash_nr,$hash_nr) if ( $Options{'status'} eq $SAPControl{$hash_nr}{'status'} );
-
 		}
 	}
 
 	# uniq
 	@hash_nr = keys { map { $_ => 1 } @hash_nr };
+	@hash_nr_total = keys { map { $_ => 1 } @hash_nr_total };
 
 	$SAPControlMatch{'hash_count'} = scalar(@hash_nr);
+	$SAPControlMatch{'hash_count_total'} = scalar(@hash_nr_total);
+
+	if (defined($Options{'typ'})) {
+	    @hash_nr_all = keys { map { $_ => 1 } @hash_nr_all };
+		$SAPControlMatch{'hash_count_all'} = scalar(@hash_nr_all);
+		$SAPControlMatch{'hash_count_percent'} = ($SAPControlMatch{'hash_count'} * 100)/ $SAPControlMatch{'hash_count_all'};
+	}
 
 	return %SAPControlMatch;
 
@@ -168,6 +180,9 @@ sub out_nagios {
 	my $hash_nr;
 	my $hash_key;
 	my $count = 0;
+	my $count_all = 0;
+	my $count_total = 0;
+	my $count_percent = 0;
 	my $status; 
 	my $msg; 
     
@@ -189,6 +204,11 @@ sub out_nagios {
     $msg = 'OK';
 
 	$count = $SAPControl{'hash_count'};
+	$count_all = $SAPControl{'hash_count_all'};
+	$count_total = $SAPControl{'hash_count_total'};
+	$count_percent = $SAPControl{'hash_count_percent'};
+
+
 
 	# reverse the logic 
 	# 
@@ -223,8 +243,22 @@ sub out_nagios {
 			}
 		}
 	
-	} else {
-	
+	} elsif ( defined($Options{'percent'}) ) {
+
+		if ( $Options{'warning'} ) {
+			if ($count_percent >= $Options{'warning'} ) {
+				$status = $NagiosStatus{'WARNING'};
+				$msg = 'WARNING';
+			} 
+		}
+
+		if ($count_percent >= $Options{'critical'} ) {
+				$status = $NagiosStatus{'CRITICAL'};
+				$msg = 'CRITICAL';
+		}
+
+	} else { 
+
 		if ($Options{'warning'} ) {
 			if ($count <= $Options{'warning'} ) {
 				$status = $NagiosStatus{'WARNING'};
@@ -244,13 +278,28 @@ sub out_nagios {
 			
 			}
 		}
+	
+	
 	}	
+	
+
+
 
 	# ;) 
+	if( not $Options{'warning'} ){ $Options{'warning'}='-'; }
+
 	if ($Options{'typ'}) {
-	  print "$msg - $Options{'typ'}($Options{'status'})[$count] | count=$count" . "\n";
+	  
+	  # formating 
+	  if ($Options{'percent'}) {
+	      $count_percent=$count_percent . '%' . ';' . $Options{'warning'} .  ';' . $Options{'critical'} . ';0;100';
+	  } else {
+		  $count_percent=$count_percent . '%';
+	  }
+	  
+	  print "$msg - $Options{'typ'}($Options{'status'})[$count/$count_all][$count_percent%][W:$Options{'warning'}][C:$Options{'critical'}] | count=$count percent=$count_percent" . "\n";
 	} else {
-	  print "$msg - ($Options{'status'})[$count] | count=$count" . "\n";
+	  print "$msg - ($Options{'status'})[$count/$count_total][W:$Options{'warning'}][C:$Options{'critical'}] | count=$count" . "\n";
 	}
 
 	# return 0,1,2,3

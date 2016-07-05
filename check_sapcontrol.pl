@@ -106,6 +106,7 @@ GetOptions(\%Options,
 	        'reverse', # reverses the logic for ABAPGetWPTable 
 	        'dumpall',
 	        'dumpmatch',
+	        'percent',
 	        'noperfdata',
 	        'pid:i',      
 	        'name:s',      #
