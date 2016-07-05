@@ -223,9 +223,9 @@ sub out_nagios {
 	# ./check_sapcontrol.pl -H 10.122.4.75 --authfile /etc/icinga2/auth/hostname.auth  -F ABAPGetWPTable  --status Ended  --critical 1 
 	# 
 	if ($Options{'reverse'}) {
-	
+
 		if ($Options{'warning'} ) {
-			if ($count <= $Options{'warning'} ) {
+			if ( $count <= $Options{'warning'} ) {
 				$status = $NagiosStatus{'WARNING'};
 				$msg = 'WARNING';
 			} 
@@ -260,8 +260,8 @@ sub out_nagios {
 
 	} else { 
 
-		if ($Options{'warning'} ) {
-			if ($count <= $Options{'warning'} ) {
+		if ( $Options{'warning'} ) {
+			if ($count >= $Options{'warning'} ) {
 				$status = $NagiosStatus{'WARNING'};
 				$msg = 'WARNING';
 			} 
