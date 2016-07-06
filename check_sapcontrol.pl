@@ -109,15 +109,16 @@ GetOptions(\%Options,
 	        'percent',
 	        'noperfdata',
 	        'pid:i',      
-	        'name:s',      #
-	        'typ:s',      #
-	        'status:s',      #
-	        'description:s',      #
-	        'sapcontrolcmd:s',      #
-            'username:s',      #
-	        'password:s',      #
-	        'format:s',      #
-	        'nr:s',      #
+	        'name:s',
+	        'typ:s',
+	        'reason:s',
+	        'status:s',
+	        'description:s',
+	        'sapcontrolcmd:s',
+            'username:s',
+	        'password:s',
+	        'format:s',
+	        'nr:s',
 );
 
 #===============================================================================

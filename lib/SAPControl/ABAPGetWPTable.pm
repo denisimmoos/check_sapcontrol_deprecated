@@ -126,43 +126,103 @@ sub match {
 	my $hash_key;
 	my $hash_value;
 	my @hash_nr =();
-	my @hash_nr_all =();
+	my @hash_nr_status =();
+	my @hash_nr_reason =();
 	my @hash_nr_total =();
 	my $hash_count =();
 	my %SAPControlMatch;
 
 	foreach $hash_nr (keys(%SAPControl)) {
 
-		 push(@hash_nr_total,$hash_nr);
+		push(@hash_nr_total,$hash_nr);
 
 		# 
 		# suchen nach match 
 		#
-		if (defined($Options{'typ'})) {
+		if ( $Options{'typ'} eq $SAPControl{$hash_nr}{'typ'} 
+			 and 
+		     $Options{'reason'}
+	       ){ 
+			   push(@hash_nr,$hash_nr)        if ( $Options{'reason'} eq $SAPControl{$hash_nr}{'reason'} ); 
+			   push(@hash_nr_reason,$hash_nr) if ( $Options{'reason'} ne $SAPControl{$hash_nr}{'reason'} );
 
-		  if (defined($Options{'status'}) and $Options{'typ'} eq $SAPControl{$hash_nr}{'typ'}) {
-			push(@hash_nr,$hash_nr) if ( $Options{'status'} eq $SAPControl{$hash_nr}{'status'} );
-		    push(@hash_nr_all,$hash_nr);
-		  }
+        } # END typ - reason
 
-	    } else {
+        elsif ( 
+			$Options{'typ'} eq $SAPControl{$hash_nr}{'typ'}
+		    and	
+			$Options{'status'} 
+		) {
+           
+			push(@hash_nr,$hash_nr)        if ( $Options{'status'} eq $SAPControl{$hash_nr}{'status'} );
+			push(@hash_nr_status,$hash_nr) if ( $Options{'status'} ne $SAPControl{$hash_nr}{'status'} );
+
+		} # END type - status
+
+	    elsif ( not $Options{'typ'} ) {
 			# ohne type alles zählen
-			push(@hash_nr,$hash_nr) if ( $Options{'status'} eq $SAPControl{$hash_nr}{'status'} );
+			if($Options{'status'}) {
+			   push(@hash_nr,$hash_nr) if ( $Options{'status'} eq $SAPControl{$hash_nr}{'status'} );
+			}
+
+			if($Options{'reason'}) {
+			   push(@hash_nr,$hash_nr) if ( $Options{'reason'} eq $SAPControl{$hash_nr}{'reason'} );
+			}
+		} # END else
+	} # END foreach
+
+	# 
+	# uniq - dont think this is necessary ;)
+	#
+	@hash_nr        = keys { map { $_ => 1 } @hash_nr };
+	@hash_nr_total  = keys { map { $_ => 1 } @hash_nr_total };
+	@hash_nr_reason = keys { map { $_ => 1 } @hash_nr_reason };
+	@hash_nr_status = keys { map { $_ => 1 } @hash_nr_status };
+
+	#
+	# count them
+	#
+	$SAPControlMatch{'hash_count'}        = scalar(@hash_nr);
+	$SAPControlMatch{'hash_count_total'}  = scalar(@hash_nr_total);
+	$SAPControlMatch{'hash_count_reason'} = scalar(@hash_nr_reason);
+	$SAPControlMatch{'hash_count_status'} = scalar(@hash_nr_status);
+
+
+	# 
+	# percent
+	#
+	if ( 
+		$Options{'percent'} 
+		and $Options{'typ'} 
+		and $Options{'reason'} 
+	) {
+		# :) division by zero -> for morons
+		if ($SAPControlMatch{'hash_count_reason'} == 0 ) { $SAPControlMatch{'hash_count_percent'} = 100; }
+		else {
+			$SAPControlMatch{'hash_count_percent'} = 
+			( $SAPControlMatch{'hash_count'} * 100)/ ( $SAPControlMatch{'hash_count_reason'} + $SAPControlMatch{'hash_count'} );
 		}
-	}
+	} 
+	
+	elsif (
+		$Options{'percent'}
+		and $Options{'typ'} 
+		and $Options{'status'} 
+	) {
+		# :) division by zero -> for morons
+		if ( $SAPControlMatch{'hash_count_status'} == 0) { $SAPControlMatch{'hash_count_percent'} = 100; }
+		else {
+			$SAPControlMatch{'hash_count_percent'} = 
+			( $SAPControlMatch{'hash_count'} * 100)/ ( $SAPControlMatch{'hash_count_status'} + $SAPControlMatch{'hash_count'} );
+		}
+	} 
 
-	# uniq
-	@hash_nr = keys { map { $_ => 1 } @hash_nr };
-	@hash_nr_total = keys { map { $_ => 1 } @hash_nr_total };
 
-	$SAPControlMatch{'hash_count'} = scalar(@hash_nr);
-	$SAPControlMatch{'hash_count_total'} = scalar(@hash_nr_total);
-
-	if (defined($Options{'typ'})) {
-	    @hash_nr_all = keys { map { $_ => 1 } @hash_nr_all };
-		$SAPControlMatch{'hash_count_all'} = scalar(@hash_nr_all);
-		$SAPControlMatch{'hash_count_percent'} = ($SAPControlMatch{'hash_count'} * 100)/ $SAPControlMatch{'hash_count_all'};
-	}
+	#print "hash_count -> $SAPControlMatch{'hash_count'}" . "\n";
+	#print "hash_count_total -> $SAPControlMatch{'hash_count_total'}" . "\n";
+	#print "hash_count_reason -> $SAPControlMatch{'hash_count_reason'}" . "\n";
+	#print "hash_count_status -> $SAPControlMatch{'hash_count_status'}" . "\n";
+	#print "hash_count_percent -> $SAPControlMatch{'hash_count_percent'}" . "\n";
 
 	return %SAPControlMatch;
 
@@ -179,11 +239,14 @@ sub out_nagios {
 	my $caller = (caller(0))[3];
 	my $hash_nr;
 	my $hash_key;
+	my $compare = 0;
 	my $count = 0;
-	my $count_all = 0;
+	my $count_reason = 0;
+	my $count_status = 0;
 	my $count_total = 0;
 	my $count_percent = 0;
 	my $count_msg = 0;
+	my $percent_sign = '';
 	my $status; 
 	my $msg; 
     
@@ -204,12 +267,18 @@ sub out_nagios {
     $status = $NagiosStatus{'OK'};
     $msg = 'OK';
 
-	$count = $SAPControl{'hash_count'};
-	$count_all = $SAPControl{'hash_count_all'};
-	$count_total = $SAPControl{'hash_count_total'};
+	$count         = $SAPControl{'hash_count'};
+	$count_reason  = $SAPControl{'hash_count_reason'};
+	$count_status  = $SAPControl{'hash_count_status'};
+	$count_total   = $SAPControl{'hash_count_total'};
 	$count_percent = $SAPControl{'hash_count_percent'};
 
-
+	# :) 
+	if ($Options{'percent'}) {
+        $compare =  $count_percent;	
+	} else {
+        $compare =  $count;	
+	}
 
 	# reverse the logic 
 	# 
@@ -225,55 +294,41 @@ sub out_nagios {
 	if ($Options{'reverse'}) {
 
 		if ($Options{'warning'} ) {
-			if ( $count <= $Options{'warning'} ) {
+			if ( $compare <= $Options{'warning'} ) {
 				$status = $NagiosStatus{'WARNING'};
 				$msg = 'WARNING';
 			} 
 		}
 
 		if ( $Options{'critical'} ne 'NULL' ) {
-			if ($count <= $Options{'critical'} ) {
+			if ($compare <= $Options{'critical'} ) {
 				$status = $NagiosStatus{'CRITICAL'};
 				$msg = 'CRITICAL';
 			}
 		} else {
-			if ($count <= 0 ) {
+			if ($compare <= 0 ) {
 				$status = $NagiosStatus{'CRITICAL'};
 				$msg = 'CRITICAL';
 			
 			}
 		}
 	
-	} elsif ( defined($Options{'percent'}) ) {
-
-		if ( $Options{'warning'} ) {
-			if ($count_percent >= $Options{'warning'} ) {
-				$status = $NagiosStatus{'WARNING'};
-				$msg = 'WARNING';
-			} 
-		}
-
-		if ($count_percent >= $Options{'critical'} ) {
-				$status = $NagiosStatus{'CRITICAL'};
-				$msg = 'CRITICAL';
-		}
-
 	} else { 
 
 		if ( $Options{'warning'} ) {
-			if ($count >= $Options{'warning'} ) {
+			if ($compare >= $Options{'warning'} ) {
 				$status = $NagiosStatus{'WARNING'};
 				$msg = 'WARNING';
 			} 
 		}
 
 		if ( $Options{'critical'} ne 'NULL' ) {
-			if ($count >= $Options{'critical'} ) {
+			if ($compare >= $Options{'critical'} ) {
 				$status = $NagiosStatus{'CRITICAL'};
 				$msg = 'CRITICAL';
 			}
 		} else {
-			if ($count >= 0 ) {
+			if ($compare > 0 ) {
 				$status = $NagiosStatus{'CRITICAL'};
 				$msg = 'CRITICAL';
 			
@@ -282,28 +337,80 @@ sub out_nagios {
 	
 	
 	}	
-	
-
 
 
 	# ;) 
 	if( not $Options{'warning'} ){ $Options{'warning'}='-'; }
+	if( not $Options{'reverse'} ){ $Options{'reverse'} = '0'; }
+	if( not $Options{'typ'} ){ $Options{'typ'} = 'ALL'; }
 
 	if ($Options{'typ'}) {
 	  
 	  # formating 
-	  if ($Options{'percent'}) {
-		  $count_msg=$count_percent . '%';
-	      $count_percent=$count_percent . '%' . ';' . $Options{'warning'} .  ';' . $Options{'critical'} . ';0;100';
-	  } else {
-		  $count_msg=$count_percent . '%';
-		  $count_percent=$count_percent . '%';
-	  }
-	  
-	  print "$msg - $Options{'typ'}($Options{'status'})[$count/$count_all][$count_msg][W:$Options{'warning'}][C:$Options{'critical'}] | count=$count percent=$count_percent" . "\n";
+	  if ($Options{'percent'} and $Options{'reason'} ) {
 
-	} else {
-	  print "$msg - ($Options{'status'})[$count/$count_total][W:$Options{'warning'}][C:$Options{'critical'}] | count=$count" . "\n";
+		  $count_total = $count + $count_reason;
+		  
+	      
+		  print "$msg | count=$count  percent=$count_percent" . "\n\n" 
+		  . 'typ => '   . $Options{'typ'} . "\n"
+		  . 'reason => '   . $Options{'reason'} . "\n"
+		  . 'count => '     . "[$count/$count_total]" . "\n"
+		  . 'warning => '  . $Options{'warning'} . '%' . "\n"
+		  . 'critical => ' . $Options{'critical'} . '%' . "\n"
+		  . 'percent => '  . $count_percent . '%' . "\n"
+		  . 'reverse => '  . "$Options{'reverse'}" . "\n"
+		  . "\n";
+		  
+	  } 
+
+	  elsif ($Options{'percent'} and $Options{'status'} ) {
+	      
+		  $count_total = $count + $count_status;
+		  print "$msg | count=$count  percent=$count_percent" . "\n\n" 
+		  . 'typ => '       . $Options{'typ'}                 . "\n"
+		  . 'status => '    . $Options{'status'}              . "\n"
+		  . 'count => '     . "[$count/$count_total]"         . "\n"
+		  . 'warning => '   . $Options{'warning'} . '%'       . "\n"
+		  . 'critical => '  . $Options{'critical'} . '%'      . "\n"
+		  . 'percent => '   . $count_percent . '%'            . "\n"
+		  . 'reverse => '   . "$Options{'reverse'}"           . "\n"
+		  . "\n";
+	  } 
+	  
+	  elsif ($Options{'status'} ) {
+
+          if ( $Options{'typ'} ne 'ALL' ) {
+		    $count_total = $count + $count_status;
+          }
+	      
+		  print "$msg | count=$count"                    . "\n\n" 
+		  . 'typ => '       . $Options{'typ'}            . "\n"
+		  . 'status => '    . $Options{'status'}         . "\n"
+		  . 'count => '     . "[$count/$count_total]"    . "\n"
+		  . 'warning => '   . $Options{'warning'}        . "\n"
+		  . 'critical => '  . $Options{'critical'}       . "\n"
+		  . 'reverse => '   . "$Options{'reverse'}"      . "\n"
+		  . "\n";
+	  } 
+	  
+	  elsif ($Options{'reason'} ) {
+	      
+          if ( $Options{'typ'} ne 'ALL' ) {
+		    $count_total = $count + $count_status;
+          }
+
+		  print "$msg | count=$count"                    . "\n\n" 
+		  . 'typ => '       . $Options{'typ'}            . "\n"
+		  . 'reason => '    . $Options{'reason'}         . "\n"
+		  . 'count => '     . "[$count/$count_total]"    . "\n"
+		  . 'warning => '   . $Options{'warning'}        . "\n"
+		  . 'critical => '  . $Options{'critical'}       . "\n"
+		  . 'reverse => '   . "$Options{'reverse'}"      . "\n"
+		  . "\n";
+	  } 
+
+
 	}
 
 	# return 0,1,2,3
