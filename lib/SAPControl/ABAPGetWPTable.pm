@@ -13,7 +13,9 @@ package SAPControl::ABAPGetWPTable;
 #       AUTHOR: Denis Immoos (<denisimmoos@gmail.com>)
 #    AUTHORREF: Senior Linux System Administrator (LPIC3)
 # ORGANIZATION: Sopra Steria Switzerland
-#      VERSION: 1.0
+#      VERSION: 1.1
+#               --reason
+#               --status
 #      CREATED: 11/20/2015 03:25:01 PM
 #     REVISION: ---
 #===============================================================================

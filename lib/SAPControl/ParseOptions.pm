@@ -186,6 +186,8 @@ sub parse {
 		&error($caller,'$Options{critical} must be defined and a numeric value or NULL') if not ( $Options{'critical'} or $Options{'dump'}); 
 		&verbose($caller,'$Options{critical} = ' . $Options{'critical'}) if (($Options{'v'} or $Options{'verbose'}) and $Options{'critical'} ); 
 		&error($caller,'$Options{typ} must be defined together with $Options{percent}') if (defined($Options{'percent'}) and not defined($Options{'typ'}));
+
+		&error($caller,'$Options{reason} and $Options{status} can not ibe used together') if (defined($Options{'status'}) and defined($Options{'reason'}));
 	
 	}
 	
