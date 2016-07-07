@@ -44,6 +44,7 @@ $Options{'function'} = 'GetAlertTree';
 $Options{'nr'} = '00';
 $Options{'format'} = 'script';
 $Options{'criteria'} = 'description';
+$Options{'overwrite_ActualValue'} = 'OK';
 
 #===============================================================================
 # SYGNALS 

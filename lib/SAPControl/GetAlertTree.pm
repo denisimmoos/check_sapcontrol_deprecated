@@ -268,27 +268,31 @@ sub out_nagios {
 			}
 
 			# :) Actual value
-			$status = $SAPControl{$hash_nr}{'ActualValue'};
+			if ($Options{'overwrite_ActualValue'} ) {
+			    $status = $Options{'overwrite_ActualValue'};
+			} else {
+			    $status = $SAPControl{$hash_nr}{'ActualValue'};
+			}
+	
 			$status = $NagiosStatus{$status};
 
 			# test
 			#$criteria = 40;
 
 
-			if ( $criteria >=  $Options{'warning'} and $Options{'warning'}){
-				$status = $NagiosStatus{'WARNING'};
-				#$SAPControl{$hash_nr}{'HighAlertValue'} .=  ' overwritten by $Options{warning}'; 
-			    $SAPControl{$hash_nr}{'ActualValue'} .=  ' overwritten by $Options{warning}'; 
-			} 
+			if ($Options{'warning'}) {
+				if ( $criteria >=  $Options{'warning'} ){
+					$status = $NagiosStatus{'WARNING'};
+					$SAPControl{$hash_nr}{'ActualValue'} .=  ' overwritten by $Options{warning}'; 
+				} 
+			}
 
 			if ( $criteria >=  $Options{'critical'} ){
 				$status = $NagiosStatus{'CRITICAL'};
                 
 				if ($Options{'warning'}) {
-					#$SAPControl{$hash_nr}{'HighAlertValue'} .=  ' and $Options{critical}';
 			        $SAPControl{$hash_nr}{'ActualValue'} .=  ' and $Options{critical}';
 			    } else {
-					#$SAPControl{$hash_nr}{'HighAlertValue'} .=  ' overwritten by $Options{critical}'; 
 			        $SAPControl{$hash_nr}{'ActualValue'} .=  ' overwritten by $Options{critical}'; 
 				}
 			} 
