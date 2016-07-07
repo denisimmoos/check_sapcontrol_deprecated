@@ -354,7 +354,7 @@ sub out_nagios {
 		  $count_total = $count + $count_reason;
 		  
 	      
-		  print "$msg | count=$count  percent=$count_percent" . "\n\n" 
+		  print "$msg | count=$count percent=$count_percent\%;$Options{'warning'};$Options{'critical'};0;100" . "\n\n" 
 		  . 'typ => '   . $Options{'typ'} . "\n"
 		  . 'reason => '   . $Options{'reason'} . "\n"
 		  . 'count => '     . "[$count/$count_total]" . "\n"
@@ -369,7 +369,8 @@ sub out_nagios {
 	  elsif ($Options{'percent'} and $Options{'status'} ) {
 	      
 		  $count_total = $count + $count_status;
-		  print "$msg | count=$count  percent=$count_percent" . "\n\n" 
+		  print "$msg | count=$count percent=$count_percent\%;$Options{'warning'};$Options{'critical'};0;100" . "\n\n" 
+		  
 		  . 'typ => '       . $Options{'typ'}                 . "\n"
 		  . 'status => '    . $Options{'status'}              . "\n"
 		  . 'count => '     . "[$count/$count_total]"         . "\n"
